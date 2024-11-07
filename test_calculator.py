@@ -18,7 +18,7 @@ class TestCalculator(unittest.TestCase):
         self.assertEqual(self.calc.subtract(10, 5), 5)
 
     def test_subtract_negative_numbers(self):
-        self.assertEqual(self.calc.subtract(-10, -5), 5)
+        self.assertEqual(self.calc.subtract(-10, -5), -5)
 
     # Test cases for multiply method
     def test_multiply_positive_numbers(self):
