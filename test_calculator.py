@@ -1,34 +1,45 @@
-class Calculator:
+import unittest
+from calculator import Calculator
 
-    def add(self, a, b):
-        return a + b
+class TestCalculator(unittest.TestCase):
 
-    def subtract(self, a, b):
-        return a - b  # เปลี่ยนจาก 'b - a' เป็น 'a - b'
+    def setUp(self):
+        self.calc = Calculator()
 
-    def multiply(self, a, b):
-        result = 0
-        for i in range(abs(b)):  # รองรับเลขติดลบ
-            result = self.add(result, abs(a))
-        # จัดการกรณีที่ b หรือตัวใดตัวหนึ่งเป็นลบ
-        return result if (a >= 0 and b >= 0) or (a < 0 and b < 0) else -result
+    # Test cases for add method
+    def test_add_positive_numbers(self):
+        self.assertEqual(self.calc.add(10, 5), 15)
 
-    def divide(self, a, b):
-        if b == 0:
-            raise ValueError("Cannot divide by zero")  # จัดการกรณีหารด้วยศูนย์
-        result = 0
-        remainder = abs(a)
-        while remainder >= abs(b):
-            remainder = self.subtract(remainder, abs(b))
-            result += 1
-        # จัดการกรณีที่ผลลัพธ์ควรเป็นลบ
-        return result if (a >= 0 and b > 0) or (a < 0 and b < 0) else -result
+    def test_add_negative_numbers(self):
+        self.assertEqual(self.calc.add(-10, -5), -15)
 
-    def modulo(self, a, b):
-        if b == 0:
-            raise ValueError("Cannot divide by zero")  # จัดการกรณี mod ด้วยศูนย์
-        remainder = abs(a)
-        while remainder >= abs(b):
-            remainder = remainder - abs(b)
-        # จัดการกรณีที่ a เป็นลบ
-        return remainder if a >= 0 else -remainder
+    # Test cases for subtract method
+    def test_subtract_positive_numbers(self):
+        self.assertEqual(self.calc.subtract(10, 5), 5)
+
+    def test_subtract_negative_numbers(self):
+        self.assertEqual(self.calc.subtract(-10, -5), 5)
+
+    # Test cases for multiply method
+    def test_multiply_positive_numbers(self):
+        self.assertEqual(self.calc.multiply(3, 4), 12)
+
+    def test_multiply_with_zero(self):
+        self.assertEqual(self.calc.multiply(3, 0), 0)
+
+    # Test cases for divide method
+    def test_divide_exact_division(self):
+        self.assertEqual(self.calc.divide(10, 2), 5)
+
+    def test_divide_remainder(self):
+        self.assertEqual(self.calc.divide(9, 2), 4)  # Should return quotient
+
+    # Test cases for modulo method
+    def test_modulo_remainder(self):
+        self.assertEqual(self.calc.modulo(10, 3), 1)
+
+    def test_modulo_no_remainder(self):
+        self.assertEqual(self.calc.modulo(10, 5), 0)
+
+if __name__ == '__main__':
+    unittest.main()
